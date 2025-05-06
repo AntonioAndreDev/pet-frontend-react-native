@@ -13,7 +13,7 @@ export default function AppLayout() {
         }}
         listeners={{
           tabPress: () => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
           },
         }}
       />
@@ -27,7 +27,7 @@ export default function AppLayout() {
         }}
         listeners={{
           tabPress: () => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
           },
         }}
       />
