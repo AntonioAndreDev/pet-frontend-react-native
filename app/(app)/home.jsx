@@ -1,9 +1,14 @@
-import { SafeAreaView, Text } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
+
+import Post from '../../components/posts/Post';
 
 export default function Home() {
   return (
     <SafeAreaView>
-      <Text>Home</Text>
+      <View style={{ paddingHorizontal: 16 }}>
+        <Text>Home</Text>
+        <Post />
+      </View>
     </SafeAreaView>
   );
 }
