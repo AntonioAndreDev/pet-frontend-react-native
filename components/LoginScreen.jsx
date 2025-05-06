@@ -1,4 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 
@@ -78,6 +79,8 @@ export function LoginScreen() {
         <TouchableOpacity className="mb-6 h-12 w-full items-center justify-center rounded-full bg-slate-700">
           <Text className="text-lg font-bold text-white">Entrar</Text>
         </TouchableOpacity>
+
+        <Link href="(app)/home">Home</Link>
       </View>
     </View>
   );
