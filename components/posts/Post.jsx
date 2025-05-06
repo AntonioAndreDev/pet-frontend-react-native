@@ -1,5 +1,6 @@
 import { SafeAreaView, Text } from 'react-native';
 
+import ImageCarousel from './ImageCarousel';
 import User from './User';
 
 export default function Post() {
@@ -7,6 +8,7 @@ export default function Post() {
     <SafeAreaView>
       <Text>Post</Text>
       <User />
+      <ImageCarousel />
     </SafeAreaView>
   );
 }
