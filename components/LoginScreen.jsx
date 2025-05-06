@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 
 export function LoginScreen() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
 
   return (
-    <View className="flex-1 items-center justify-center bg-sky-50 p-6">
+    <View className="flex-1 items-center justify-center bg-yellow-400">
       <View className="w-full max-w-md items-center overflow-hidden rounded-3xl bg-yellow-400 p-6 shadow-lg">
         {/* Dog Ears */}
         <View className="absolute left-0 top-0 size-40 -translate-x-12 -translate-y-12 rounded-full bg-slate-700" />
@@ -54,15 +54,15 @@ export function LoginScreen() {
         <View className="mb-4 mt-12 w-full">
           <TextInput
             className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
           />
 
           <View className="relative w-full">
             <TextInput
               className="h-12 w-full rounded-full bg-white px-4 text-gray-500"
-              placeholder="Password"
+              placeholder="Senha"
               value={password}
               onChangeText={setPassword}
               secureTextEntry={hidePassword}
@@ -76,23 +76,8 @@ export function LoginScreen() {
         </View>
 
         <TouchableOpacity className="mb-6 h-12 w-full items-center justify-center rounded-full bg-slate-700">
-          <Text className="text-lg font-bold text-white">Login</Text>
+          <Text className="text-lg font-bold text-white">Entrar</Text>
         </TouchableOpacity>
-
-        {/* Social Media Icons */}
-        <View className="mb-4 flex-row justify-center">
-          <TouchableOpacity className="mx-2 h-10 w-10 items-center justify-center rounded-full bg-slate-700">
-            <FontAwesome name="facebook" size={20} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity className="mx-2 h-10 w-10 items-center justify-center rounded-full bg-slate-700">
-            <FontAwesome name="twitter" size={20} color="white" />
-          </TouchableOpacity>
-          <TouchableOpacity className="mx-2 h-10 w-10 items-center justify-center rounded-full bg-slate-700">
-            <FontAwesome name="github" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
-
-        <Text className="font-medium text-slate-700">Code with Aarzoo</Text>
       </View>
     </View>
   );
