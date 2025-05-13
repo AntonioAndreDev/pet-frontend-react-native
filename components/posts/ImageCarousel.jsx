@@ -9,10 +9,10 @@ const defaultDataWith6Colors = ['#B0604D', '#899F9C', '#B3C680', '#5C6265', '#F5
 
 function ImageCarousel() {
   const scrollOffsetValue = useSharedValue(0);
+
   return (
-    <View id="carousel-component" dataSet={{ kind: 'basic-layouts', name: 'normal' }}>
+    <View>
       <Carousel
-        testID="xxx"
         loop
         width={430}
         height={258}
@@ -22,16 +22,6 @@ function ImageCarousel() {
         data={defaultDataWith6Colors}
         defaultScrollOffsetValue={scrollOffsetValue}
         style={{ width: '100%' }}
-        onScrollStart={() => {
-          console.log('Scroll start');
-        }}
-        onScrollEnd={() => {
-          console.log('Scroll end');
-        }}
-        onConfigurePanGesture={(g) => {
-          'worklet';
-          g.enabled(false);
-        }}
         onSnapToItem={(index) => console.log('current index:', index)}
         renderItem={renderItem({ rounded: true })}
       />

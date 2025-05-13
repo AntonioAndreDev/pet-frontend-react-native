@@ -3,11 +3,12 @@ import { SafeAreaView, Text } from 'react-native';
 import ImageCarousel from './ImageCarousel';
 import User from './User';
 
-export default function Post() {
+export default function Post({ posts }) {
   return (
     <SafeAreaView>
-      <Text>Post</Text>
       <User />
+      <Text>{posts.titulo}</Text>
+      <Text>{posts.descricao}</Text>
       <ImageCarousel />
     </SafeAreaView>
   );
