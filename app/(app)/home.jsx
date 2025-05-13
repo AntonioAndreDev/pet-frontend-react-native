@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 
 import Post from '../../components/posts/Post';
 import { usePostsStore } from '../stores/posts/usePostsStore';
@@ -28,9 +28,13 @@ export default function Home() {
     <SafeAreaView>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16 }}>
         <Text>Home</Text>
-        {posts.map((post) => (
-          <Post key={post.id_post} posts={post} />
-        ))}
+        <View>
+          {posts.map((post) => (
+            <View key={post.id_post} style={{ marginBottom: 30 }}>
+              <Post post={post} />
+            </View>
+          ))}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

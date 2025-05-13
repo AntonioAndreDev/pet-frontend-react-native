@@ -1,32 +1,22 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { useSharedValue } from 'react-native-reanimated';
-import Carousel from 'react-native-reanimated-carousel';
+import { View, StyleSheet, Dimensions, Image } from 'react-native';
 
-import { renderItem } from '../../app/utils/render-item';
+const { width: screenWidth } = Dimensions.get('window');
 
-const defaultDataWith6Colors = ['#B0604D', '#899F9C', '#B3C680', '#5C6265', '#F5D399', '#F1F1F1'];
+function ImageCarousel({ image }) {
+  console.log('ImageCarousel - imagem recebida:', image);
 
-function ImageCarousel() {
-  const scrollOffsetValue = useSharedValue(0);
+  if (typeof image === 'string') {
+    return (
+      <View className="my-2">
+        <View className="h-[250px] w-[calc(100%-32px)] overflow-hidden rounded-lg">
+          <Image source={{ uri: image }} className="h-full w-full" resizeMode="cover" />
+        </View>
+      </View>
+    );
+  }
 
-  return (
-    <View>
-      <Carousel
-        loop
-        width={430}
-        height={258}
-        snapEnabled
-        pagingEnabled
-        autoPlayInterval={2000}
-        data={defaultDataWith6Colors}
-        defaultScrollOffsetValue={scrollOffsetValue}
-        style={{ width: '100%' }}
-        onSnapToItem={(index) => console.log('current index:', index)}
-        renderItem={renderItem({ rounded: true })}
-      />
-    </View>
-  );
+  return null;
 }
 
 export default ImageCarousel;
