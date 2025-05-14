@@ -13,6 +13,7 @@ import {
 
 import ImageCarousel from './ImageCarousel';
 import NewComment from './NewComment';
+import CommentList from '../comments/CommentList';
 
 export default function Post({ post }) {
   const bottomSheetModalRef = useRef(null);
@@ -70,15 +71,7 @@ export default function Post({ post }) {
         keyboardBlurBehavior="restore">
         <BottomSheetScrollView contentContainerStyle={styles.scrollContent}>
           <Text className="mb-2 text-center text-lg font-bold">Comentários</Text>
-          {post.comentarios_p && post.comentarios_p.length > 0 ? (
-            post.comentarios_p.map((comentario) => (
-              <Text key={comentario.id_comentario} style={styles.itemText}>
-                {comentario.descricao}
-              </Text>
-            ))
-          ) : (
-            <Text className="text-center">Nenhum comentário ainda</Text>
-          )}
+          <CommentList postId={post.id_post} />
           <View style={styles.commentInputContainer}>
             <NewComment />
           </View>
