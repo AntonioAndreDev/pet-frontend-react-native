@@ -1,20 +1,27 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { BottomSheetModal, BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useCallback, useRef, useMemo } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+} from 'react-native';
 
 import ImageCarousel from './ImageCarousel';
+import NewComment from './NewComment';
 
 export default function Post({ post }) {
   const bottomSheetModalRef = useRef(null);
 
-  // Apenas uma posição em 50% da altura da tela
+  // Snappoints para o modal
   const snapPoints = useMemo(() => ['50%'], []);
 
-  // Índice inicial deve ser 0 já que só temos um ponto de snap
-  const initialSnapIndex = 0;
-
   const handlePresentModalPress = useCallback(() => {
+    console.log('Tentando abrir o modal');
     bottomSheetModalRef.current?.present();
   }, []);
 
@@ -23,7 +30,7 @@ export default function Post({ post }) {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
       <View className="flex flex-row items-center gap-2">
         <Image
           className="size-8 rounded-full"
@@ -38,12 +45,18 @@ export default function Post({ post }) {
         </Text>
       </View>
       <ImageCarousel image={post.imagem} />
-      <TouchableOpacity className="size-8" onPress={handlePresentModalPress}>
+
+      {/* Botão de comentário com área de toque maior */}
+      <TouchableOpacity
+        style={styles.commentButton}
+        onPress={handlePresentModalPress}
+        activeOpacity={0.7}>
         <FontAwesome name="comment-o" size={24} color="black" />
       </TouchableOpacity>
+
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        index={initialSnapIndex}
+        index={0}
         snapPoints={snapPoints}
         enableContentPanningGesture
         enableHandlePanningGesture
@@ -52,20 +65,26 @@ export default function Post({ post }) {
             <View style={styles.handle} />
           </View>
         )}
-        onChange={handleSheetChanges}>
+        onChange={handleSheetChanges}
+        keyboardBehavior={Platform.OS === 'ios' ? 'extend' : 'interactive'}
+        keyboardBlurBehavior="restore">
         <BottomSheetScrollView contentContainerStyle={styles.scrollContent}>
           <Text className="mb-2 text-center text-lg font-bold">Comentários</Text>
-          {post.comentarios_p.length > 0 &&
+          {post.comentarios_p && post.comentarios_p.length > 0 ? (
             post.comentarios_p.map((comentario) => (
               <Text key={comentario.id_comentario} style={styles.itemText}>
                 {comentario.descricao}
               </Text>
-            ))}
-          {post.comentarios_p.length === 0 && (
+            ))
+          ) : (
             <Text className="text-center">Nenhum comentário ainda</Text>
           )}
+          <View style={styles.commentInputContainer}>
+            <NewComment />
+          </View>
         </BottomSheetScrollView>
       </BottomSheetModal>
+
       <Text className="mb-1 text-xl font-semibold">{post.titulo}</Text>
       <View className="flex flex-row">
         <Text className="lowercase text-gray-800">
@@ -77,6 +96,16 @@ export default function Post({ post }) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 0, // Modificar se necessário para o layout
+  },
+  commentButton: {
+    padding: 8, // Área de toque maior
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     padding: 24,
@@ -90,7 +119,7 @@ const styles = StyleSheet.create({
   },
   handle: {
     width: 36,
-    height: 2,
+    height: 4,
     borderRadius: 2,
     backgroundColor: '#000000',
   },
@@ -98,11 +127,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 40,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 12,
-    textAlign: 'center',
+  commentInputContainer: {
+    marginTop: 16,
   },
   itemText: {
     fontSize: 16,
