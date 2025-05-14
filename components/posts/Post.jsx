@@ -73,7 +73,7 @@ export default function Post({ post }) {
           <Text className="mb-2 text-center text-lg font-bold">Comentários</Text>
           <CommentList postId={post.id_post} />
           <View style={styles.commentInputContainer}>
-            <NewComment />
+            <NewComment id_post={post.id_post} />
           </View>
         </BottomSheetScrollView>
       </BottomSheetModal>

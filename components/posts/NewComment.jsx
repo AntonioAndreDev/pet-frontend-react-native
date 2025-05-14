@@ -2,8 +2,28 @@ import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-export default function NewComment() {
+import { useCommentsStore } from '../../app/stores/comments/useCommentsStore';
+
+export default function NewComment({ id_post }) {
   const [comment, setComment] = useState('');
+
+  const { postNewComment, getCommentsFromPost } = useCommentsStore();
+
+  const handleCommentSubmit = async () => {
+    if (comment.trim() === '') {
+      return;
+    }
+
+    try {
+      // TODO - Obter id_usuario do usuário logado
+      await postNewComment(id_post, 1, comment);
+      await getCommentsFromPost(id_post);
+      setComment('');
+    } catch (error) {
+      console.error('Error posting comment:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -16,6 +36,7 @@ export default function NewComment() {
       />
       <TouchableOpacity>
         <Feather
+          onPress={handleCommentSubmit}
           className="rounded-2xl bg-yellow-600 px-4 py-1.5"
           name="arrow-up-circle"
           size={24}

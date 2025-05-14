@@ -26,4 +26,27 @@ export const useCommentsStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  postNewComment: async (id_post, id_usuario, descricao) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      await fetch(`${apiUrl}/comentarios`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          descricao,
+          id_post,
+          id_usuario,
+          status: 'ativo',
+        }),
+      });
+    } catch (err) {
+      set({ error: err?.message || 'Unknown error' });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));
