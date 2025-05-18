@@ -1,12 +1,27 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Link } from 'expo-router';
-import React, { useState } from 'react';
+import { Link, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+
+import { useAuthStore } from '../app/stores/authentication/useAuthStore';
 
 export function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
+
+  const router = useRouter();
+
+  const { login } = useAuthStore();
+
+  async function handleLogin() {
+    await login(email, password);
+
+    // Redireciona se o login for bem-sucedido
+    if (useAuthStore.getState().isLogged) {
+      router.replace('/(app)/home');
+    }
+  }
 
   return (
     <View className="flex-1 items-center justify-center bg-yellow-400">
@@ -77,7 +92,9 @@ export function LoginScreen() {
         </View>
 
         <TouchableOpacity className="mb-6 h-12 w-full items-center justify-center rounded-full bg-slate-700">
-          <Text className="text-lg font-bold text-white">Entrar</Text>
+          <Text onPress={handleLogin} className="text-lg font-bold text-white">
+            Entrar
+          </Text>
         </TouchableOpacity>
 
         <Link href="(app)/home">Home</Link>

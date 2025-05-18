@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { useAuthStore } from '../authentication/useAuthStore';
+
 const apiUrl = process.env.EXPO_PUBLIC_URL;
 
 export const usePostsStore = create((set) => ({
@@ -9,13 +11,23 @@ export const usePostsStore = create((set) => ({
 
   getPosts: async () => {
     set({ isLoading: true, error: null });
+    console.log('Fetching posts from API...');
+    console.log('API URL:', apiUrl);
+    console.log('Full URL:', `${apiUrl}/posts`);
 
     try {
-      const response = await fetch(`${apiUrl}/posts`);
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/posts`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to fetch posts');
+        console.log(data);
+        throw new Error(data.erro || 'Failed to fetch posts');
       }
 
       const posts = await response.json();

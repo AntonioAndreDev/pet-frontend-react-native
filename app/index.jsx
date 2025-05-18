@@ -1,20 +1,12 @@
 import { Redirect } from 'expo-router';
-import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 
+import { useAuthStore } from './stores/authentication/useAuthStore';
+
 export default function Index() {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const { isLogged } = useAuthStore();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const loggedIn = true;
-      setIsLoggedIn(loggedIn);
-    };
-
-    checkAuth();
-  }, []);
-
-  if (isLoggedIn === null) {
+  if (isLogged === null) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" />
@@ -23,5 +15,5 @@ export default function Index() {
   }
 
   // Redireciona com base no login
-  return isLoggedIn ? <Redirect href="/(app)/home" /> : <Redirect href="/(auth)/login" />;
+  return isLogged ? <Redirect href="/(app)/home" /> : <Redirect href="/(auth)/login" />;
 }
