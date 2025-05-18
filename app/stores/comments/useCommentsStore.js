@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+import { useAuthStore } from '../authentication/useAuthStore';
+
 const apiUrl = process.env.EXPO_PUBLIC_URL;
 
 export const useCommentsStore = create((set) => ({
@@ -11,7 +13,13 @@ export const useCommentsStore = create((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const response = await fetch(`${apiUrl}/posts/${id_post}/comentarios`);
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/posts/${id_post}/comentarios`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         const data = await response.json();
@@ -31,10 +39,13 @@ export const useCommentsStore = create((set) => ({
     set({ isLoading: true, error: null });
 
     try {
+      const token = useAuthStore.getState().token;
+
       await fetch(`${apiUrl}/comentarios`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           descricao,
