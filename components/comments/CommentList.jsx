@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import * as React from 'react';
+import { Text, View, StyleSheet, Image } from 'react-native';
 
 import { useCommentsStore } from '../../app/stores/comments/useCommentsStore';
 
@@ -16,9 +17,17 @@ export default function CommentList({ postId }) {
     <View>
       {comments.length > 0 ? (
         comments.map((comentario) => (
-          <Text key={comentario.id_comentario} style={styles.itemText}>
-            {comentario.descricao}
-          </Text>
+          <View key={comentario.id_comentario} className=" mb-4 flex-row gap-2">
+            <Image
+              source={{ uri: comentario.usuario_c.imagem }}
+              className="size-8 rounded-full"
+              resizeMode="cover"
+            />
+            <View>
+              <Text className="font-semibold">{comentario.usuario_c.nome}</Text>
+              <Text style={styles.itemText}>{comentario.descricao}</Text>
+            </View>
+          </View>
         ))
       ) : (
         <Text className="text-center">Nenhum comentário ainda</Text>

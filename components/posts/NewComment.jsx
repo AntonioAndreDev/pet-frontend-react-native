@@ -16,7 +16,7 @@ export default function NewComment({ id_post }) {
 
     try {
       // TODO - Obter id_usuario do usuário logado
-      await postNewComment(id_post, 1, comment);
+      await postNewComment(id_post, comment);
       await getCommentsFromPost(id_post);
       setComment('');
     } catch (error) {

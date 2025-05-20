@@ -35,8 +35,9 @@ export const useCommentsStore = create((set) => ({
     }
   },
 
-  postNewComment: async (id_post, id_usuario, descricao) => {
+  postNewComment: async (id_post, descricao) => {
     set({ isLoading: true, error: null });
+    descricao = descricao.trim();
 
     try {
       const token = useAuthStore.getState().token;
@@ -50,7 +51,6 @@ export const useCommentsStore = create((set) => ({
         body: JSON.stringify({
           descricao,
           id_post,
-          id_usuario,
           status: 'ativo',
         }),
       });
