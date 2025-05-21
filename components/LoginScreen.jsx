@@ -91,10 +91,10 @@ export function LoginScreen() {
           </View>
         </View>
 
-        <TouchableOpacity className="mb-6 h-12 w-full items-center justify-center rounded-full bg-slate-700">
-          <Text onPress={handleLogin} className="text-lg font-bold text-white">
-            Entrar
-          </Text>
+        <TouchableOpacity
+          onPress={handleLogin}
+          className="mb-6 h-12 w-full items-center justify-center rounded-full bg-slate-700">
+          <Text className="text-lg font-bold text-white">Entrar</Text>
         </TouchableOpacity>
 
         <Link href="(app)/home">Home</Link>
