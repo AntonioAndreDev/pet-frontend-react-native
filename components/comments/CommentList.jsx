@@ -18,11 +18,26 @@ export default function CommentList({ postId }) {
       {comments.length > 0 ? (
         comments.map((comentario) => (
           <View key={comentario.id_comentario} className=" mb-4 flex-row gap-2">
-            <Image
-              source={{ uri: comentario.usuario_c.imagem }}
-              className="size-8 rounded-full"
-              resizeMode="cover"
-            />
+            {comentario.usuario_c.imagem !== null && (
+              <>
+                <Image
+                  source={{
+                    uri: comentario.usuario_c.imagem,
+                  }}
+                  className="size-8 rounded-full"
+                  resizeMode="cover"
+                />
+              </>
+            )}
+            {comentario.usuario_c.imagem === null && (
+              <>
+                <Image
+                  source={require('../../public/images/avatars/default.png')}
+                  className="size-8 rounded-full"
+                  resizeMode="cover"
+                />
+              </>
+            )}
             <View>
               <Text className="font-semibold">{comentario.usuario_c.nome}</Text>
               <Text style={styles.itemText}>{comentario.descricao}</Text>
