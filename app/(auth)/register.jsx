@@ -1,9 +1,14 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+
+import { useAuthStore } from '../stores/authentication/useAuthStore';
 
 export default function RegisterScreen() {
+  const { register } = useAuthStore();
+
   const [formData, setFormData] = useState({
     nome: '',
     sobrenome: '',
@@ -13,7 +18,6 @@ export default function RegisterScreen() {
   });
 
   const [hidePassword, setHidePassword] = useState(true);
-  const router = useRouter();
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -23,9 +27,9 @@ export default function RegisterScreen() {
   };
 
   const handleRegister = async () => {
-    console.log('Dados do formulário de registro:', formData);
-    // Exemplo de redirecionamento após sucesso
-    // router.replace('/(app)/home');
+    const { nome, sobrenome, telefone, email, senha } = formData;
+
+    await register(nome, sobrenome, telefone, email.toLowerCase(), senha);
   };
 
   return (
@@ -78,18 +82,35 @@ export default function RegisterScreen() {
             placeholder="Nome"
             value={formData.nome}
             onChangeText={(value) => handleInputChange('nome', value)}
+            autoCapitalize="words"
           />
           <TextInput
             className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
             placeholder="Sobrenome"
             value={formData.sobrenome}
             onChangeText={(value) => handleInputChange('sobrenome', value)}
+            autoCapitalize="words"
           />
-          <TextInput
-            className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
+          <TextInputMask
+            type="cel-phone"
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99) ',
+            }}
             placeholder="Telefone"
             value={formData.telefone}
             onChangeText={(value) => handleInputChange('telefone', value)}
+            keyboardType="phone-pad"
+            style={{
+              height: 44,
+              width: '100%',
+              borderRadius: 9999,
+              backgroundColor: '#fff',
+              paddingHorizontal: 16,
+              color: '#6b7280',
+              marginBottom: 16,
+            }}
           />
           <TextInput
             className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
@@ -97,6 +118,7 @@ export default function RegisterScreen() {
             value={formData.email}
             onChangeText={(value) => handleInputChange('email', value)}
             keyboardType="email-address"
+            autoCapitalize="none"
           />
 
           <View className="relative w-full">
@@ -106,6 +128,7 @@ export default function RegisterScreen() {
               value={formData.senha}
               onChangeText={(value) => handleInputChange('senha', value)}
               secureTextEntry={hidePassword}
+              autoCapitalize="none"
             />
             <TouchableOpacity
               className="absolute right-2 top-2 h-8 w-8 items-center justify-center rounded-full bg-slate-700"
