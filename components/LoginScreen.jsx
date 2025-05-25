@@ -15,7 +15,7 @@ export function LoginScreen() {
   const { login } = useAuthStore();
 
   async function handleLogin() {
-    await login(email, password);
+    await login(email.toLocaleLowerCase(), password);
 
     // Redireciona se o login for bem-sucedido
     if (useAuthStore.getState().isLogged) {
