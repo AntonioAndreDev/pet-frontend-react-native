@@ -1,27 +1,32 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { useAuthStore } from '../app/stores/authentication/useAuthStore';
+export default function RegisterScreen() {
+  const [formData, setFormData] = useState({
+    nome: '',
+    sobrenome: '',
+    telefone: '',
+    email: '',
+    senha: '',
+  });
 
-export function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [hidePassword, setHidePassword] = useState(true);
-
   const router = useRouter();
 
-  const { login } = useAuthStore();
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
 
-  async function handleLogin() {
-    await login(email.toLocaleLowerCase(), password);
-
-    // Redireciona se o login for bem-sucedido
-    if (useAuthStore.getState().isLogged) {
-      router.replace('/(app)/home');
-    }
-  }
+  const handleRegister = async () => {
+    console.log('Dados do formulário de registro:', formData);
+    // Exemplo de redirecionamento após sucesso
+    // router.replace('/(app)/home');
+  };
 
   return (
     <View className="flex-1 items-center justify-center bg-yellow-400">
@@ -66,21 +71,40 @@ export function LoginScreen() {
           </View>
         </View>
 
-        {/* Login Form */}
+        {/* Register Form */}
         <View className="mb-4 mt-12 w-full">
           <TextInput
             className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
+            placeholder="Nome"
+            value={formData.nome}
+            onChangeText={(value) => handleInputChange('nome', value)}
+          />
+          <TextInput
+            className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
+            placeholder="Sobrenome"
+            value={formData.sobrenome}
+            onChangeText={(value) => handleInputChange('sobrenome', value)}
+          />
+          <TextInput
+            className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
+            placeholder="Telefone"
+            value={formData.telefone}
+            onChangeText={(value) => handleInputChange('telefone', value)}
+          />
+          <TextInput
+            className="mb-4 h-12 w-full rounded-full bg-white px-4 text-gray-500"
             placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
+            value={formData.email}
+            onChangeText={(value) => handleInputChange('email', value)}
+            keyboardType="email-address"
           />
 
           <View className="relative w-full">
             <TextInput
               className="h-12 w-full rounded-full bg-white px-4 text-gray-500"
               placeholder="Senha"
-              value={password}
-              onChangeText={setPassword}
+              value={formData.senha}
+              onChangeText={(value) => handleInputChange('senha', value)}
               secureTextEntry={hidePassword}
             />
             <TouchableOpacity
@@ -92,16 +116,16 @@ export function LoginScreen() {
         </View>
 
         <Text className="flex w-full justify-end text-slate-700">
-          Não tem uma conta?{' '}
-          <Link href="(auth)/register" className="font-bold">
-            Registre-se
+          Já tem uma conta?{' '}
+          <Link href="(auth)/login" className="font-bold">
+            Entrar
           </Link>
         </Text>
 
         <TouchableOpacity
-          onPress={handleLogin}
+          onPress={handleRegister}
           className="mb-6 mt-4 h-12 w-full items-center justify-center rounded-full bg-slate-700">
-          <Text className="text-lg font-bold text-white">Entrar</Text>
+          <Text className="text-lg font-bold text-white">Criar Conta</Text>
         </TouchableOpacity>
       </View>
     </View>
