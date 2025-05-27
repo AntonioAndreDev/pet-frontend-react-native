@@ -38,4 +38,42 @@ export const usePostsStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  newPost: async (titulo, descricao, tipo_post, especie, sexo, raca, idade) => {
+    set({ isLoading: true, error: null });
+    console.log('Creating new post...');
+
+    try {
+      const token = useAuthStore.getState().token;
+      const response = await fetch(`${apiUrl}/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          titulo,
+          descricao,
+          tipo_post,
+          especie,
+          sexo,
+          raca,
+          idade,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        console.log(data);
+        throw new Error(data.erro || 'Failed to create post');
+      }
+
+      const newPost = await response.json();
+      set((state) => ({ posts: [...state.posts, newPost] }));
+    } catch (err) {
+      set({ error: err?.message || 'Unknown error' });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));

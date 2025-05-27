@@ -1,8 +1,8 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import * as Haptics from 'expo-haptics';
 import { Tabs } from 'expo-router';
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function AppLayout() {
@@ -16,6 +16,20 @@ export default function AppLayout() {
               title: 'Início',
               tabBarIcon: ({ color, size }) => (
                 <MaterialIcons name="pets" color={color} size={size} />
+              ),
+            }}
+            listeners={{
+              tabPress: () => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+              },
+            }}
+          />
+          <Tabs.Screen
+            name="newPost"
+            options={{
+              title: 'Nova Postagem',
+              tabBarIcon: ({ color, size }) => (
+                <AntDesign name="pluscircleo" color={color} size={size} />
               ),
             }}
             listeners={{
