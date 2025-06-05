@@ -50,7 +50,7 @@ export default function NewPost() {
     }
 
     const formData = new FormData();
-    formData.append('imagem', {
+    formData.append('image', {
       uri: image,
       name: 'foto.jpg',
       type: 'image/jpeg',
@@ -63,7 +63,7 @@ export default function NewPost() {
     formData.append('raca', raca);
     formData.append('idade', idade);
 
-    await newPost(titulo, descricao, tipoPost, especie, sexo, raca, idade);
+    await newPost(formData);
   };
 
   return (
