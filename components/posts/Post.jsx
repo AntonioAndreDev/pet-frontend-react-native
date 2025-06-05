@@ -45,7 +45,14 @@ export default function Post({ post }) {
           {post.usuario_p?.nome || 'usuário'}
         </Text>
       </View>
-      <ImageCarousel image={post.imagem} />
+
+      <ImageCarousel
+        image={
+          post?.imagem?.startsWith('http')
+            ? post.imagem
+            : `http://${process.env.EXPO_PUBLIC_IP}:3000/${post.imagem?.replace('src/', '')}`
+        }
+      />
 
       {/* Botão de comentário com área de toque maior */}
       <TouchableOpacity
