@@ -39,27 +39,18 @@ export const usePostsStore = create((set) => ({
     }
   },
 
-  newPost: async (titulo, descricao, tipo_post, especie, sexo, raca, idade) => {
+  newPost: async (formData) => {
     set({ isLoading: true, error: null });
-    console.log('Creating new post...');
 
     try {
       const token = useAuthStore.getState().token;
+
       const response = await fetch(`${apiUrl}/posts`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          titulo,
-          descricao,
-          tipo_post,
-          especie,
-          sexo,
-          raca,
-          idade,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
