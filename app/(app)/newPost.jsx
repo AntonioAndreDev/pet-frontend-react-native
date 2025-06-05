@@ -43,6 +43,24 @@ export default function NewPost() {
     }
   };
 
+  const takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permissão negada', 'Precisamos da sua permissão para usar a câmera.');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 0.7,
+      base64: false,
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   const handlePost = async () => {
     if (!image || !titulo || !descricao || !tipoPost || !especie || !sexo || !raca || !idade) {
       Alert.alert('Erro', 'Preencha todos os campos e selecione uma imagem.');
@@ -74,7 +92,10 @@ export default function NewPost() {
         {image ? (
           <Image source={{ uri: image }} style={styles.image} />
         ) : (
-          <Button title="Selecionar Imagem" onPress={pickImage} />
+          <>
+            <Button title="Selecionar Imagem" onPress={pickImage} />
+            <Button title="Tirar Foto com a Câmera" onPress={takePhoto} />
+          </>
         )}
 
         <TextInput
