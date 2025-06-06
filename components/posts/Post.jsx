@@ -22,12 +22,7 @@ export default function Post({ post }) {
   const snapPoints = useMemo(() => ['50%'], []);
 
   const handlePresentModalPress = useCallback(() => {
-    console.log('Tentando abrir o modal');
     bottomSheetModalRef.current?.present();
-  }, []);
-
-  const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
   }, []);
 
   return (
@@ -73,7 +68,6 @@ export default function Post({ post }) {
             <View style={styles.handle} />
           </View>
         )}
-        onChange={handleSheetChanges}
         keyboardBehavior={Platform.OS === 'ios' ? 'extend' : 'interactive'}
         keyboardBlurBehavior="restore">
         <BottomSheetScrollView contentContainerStyle={styles.scrollContent}>
