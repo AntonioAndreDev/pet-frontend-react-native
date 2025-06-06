@@ -1,6 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import Filter from '../../components/Filter';
 import Post from '../../components/posts/Post';
 import { usePostsStore } from '../stores/posts/usePostsStore';
 
@@ -8,8 +10,7 @@ export default function Home() {
   const insets = useSafeAreaInsets();
   const { posts, getPosts, isLoading, error } = usePostsStore();
 
-  const [filtros, setFiltros] = useState({ especie: '', sexo: '', raca: '', idade: '' });
-  const [mostrarRacas, setMostrarRacas] = useState(false);
+  const [filtros, setFiltros] = useState({ especie: '', sexo: '' });
 
   const handleFiltroChange = (campo, valor) => {
     setFiltros((prev) => ({
@@ -23,9 +24,7 @@ export default function Home() {
   const postsFiltrados = posts.filter((post) => {
     return (
       (!filtros.especie || post.especie === filtros.especie) &&
-      (!filtros.sexo || post.sexo === filtros.sexo) &&
-      (!filtros.raca || post.raca === filtros.raca) &&
-      (!filtros.idade || String(post.idade) === filtros.idade)
+      (!filtros.sexo || post.sexo === filtros.sexo)
     );
   });
 
@@ -33,82 +32,44 @@ export default function Home() {
     getPosts();
   }, []);
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <SafeAreaView>
         <Text>Carregando...</Text>
       </SafeAreaView>
     );
-  if (error)
+  }
+
+  if (error) {
     return (
       <SafeAreaView>
         <Text>Erro: {error}</Text>
       </SafeAreaView>
     );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <SafeAreaView>
+        <Text className="text-black">Nenhum post encontrado.</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View
-        style={{
-          paddingTop: insets.top,
-        }}
-        className="absolute left-0 right-0 top-0 z-10 bg-yellow-400 items-start justify-center px-4">
-        <Text className="text-slate-700 text-lg font-bold">Pet</Text>
+      <View className="absolute left-0 right-0 top-0 z-10 items-start justify-center bg-yellow-400 px-4 py-2">
+        <SafeAreaView>
+          <Text className="text-lg font-bold text-slate-700">Pet</Text>
+        </SafeAreaView>
       </View>
 
-      <View
-        style={{
-          marginTop: insets.top,
-        }}
-        className="px-4">
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="mb-2"
-          contentContainerStyle={{ gap: 8 }}>
-          {['especie', 'sexo'].map((campo) =>
-            extrairValoresUnicos(campo).map((valor) => (
-              <TouchableOpacity
-                key={`${campo}-${valor}`}
-                className={`px-4 py-2 rounded-full ${
-                  filtros[campo] === String(valor)
-                    ? 'bg-yellow-400'
-                    : 'bg-gray-200'
-                }`}
-                onPress={() => handleFiltroChange(campo, String(valor))}>
-                <Text className="text-sm text-gray-800 font-medium">{valor}</Text>
-              </TouchableOpacity>
-            ))
-          )}
-        </ScrollView>
-
-        {/* <TouchableOpacity
-          className="px-4 py-2 bg-gray-200 rounded-full self-start mb-2"
-          onPress={() => setMostrarRacas((prev) => !prev)}>
-          <Text className="text-sm text-gray-800 font-medium">
-            {mostrarRacas ? 'Ocultar raças' : '+ Filtrar por raça'}
-          </Text>
-        </TouchableOpacity> */}
-
-        {mostrarRacas && (
-          <ScrollView
-            className="max-h-[150px] mb-4"
-            contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            {extrairValoresUnicos('raca').map((valor) => (
-              <TouchableOpacity
-                key={`raca-${valor}`}
-                className={`px-4 py-2 rounded-full ${
-                  filtros.raca === String(valor)
-                    ? 'bg-yellow-400'
-                    : 'bg-gray-200'
-                }`}
-                onPress={() => handleFiltroChange('raca', String(valor))}>
-                <Text className="text-sm text-gray-800 font-medium">{valor}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        )}
-      </View>
+      {/*Filtro*/}
+      <Filter
+        handleFiltroChange={handleFiltroChange}
+        extrairValoresUnicos={extrairValoresUnicos}
+        filtros={filtros}
+      />
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16 }}>
         <View>

@@ -6,8 +6,8 @@ import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useAuthStore } from '../app/stores/authentication/useAuthStore';
 
 export function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('ana.santos@example.com');
+  const [password, setPassword] = useState('123456');
   const [hidePassword, setHidePassword] = useState(true);
 
   const router = useRouter();
