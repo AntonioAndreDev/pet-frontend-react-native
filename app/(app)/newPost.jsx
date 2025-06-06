@@ -1,5 +1,6 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   TextInput,
@@ -25,6 +26,8 @@ export default function NewPost() {
   const [raca, setRaca] = useState('');
   const [idade, setIdade] = useState('');
   const [idadeUnidade, setIdadeUnidade] = useState('');
+
+  const router = useRouter();
   const { newPost } = usePostsStore();
 
   const unidades = ['dia(s)', 'mês(es)', 'ano(s)'];
@@ -101,7 +104,24 @@ export default function NewPost() {
     formData.append('raca', raca);
     formData.append('idade', idadeFormatada);
 
-    await newPost(formData);
+    try {
+      await newPost(formData);
+
+      setImage(null);
+      setTitulo('');
+      setDescricao('');
+      setTipoPost('');
+      setEspecie('');
+      setSexo('');
+      setRaca('');
+      setIdade('');
+      setIdadeUnidade('');
+
+      Alert.alert('Sucesso', 'Postagem realizada com sucesso!');
+      router.push('/(app)/home');
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível fazer a postagem. Tente novamente.');
+    }
   };
 
   const ModernButton = ({ title, onPress }) => (
