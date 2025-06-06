@@ -59,8 +59,7 @@ export const usePostsStore = create((set) => ({
         throw new Error(data.erro || 'Failed to create post');
       }
 
-      const newPost = await response.json();
-      set((state) => ({ posts: [...state.posts, newPost] }));
+      await usePostsStore.getState().getPosts();
     } catch (err) {
       set({ error: err?.message || 'Unknown error' });
     } finally {
