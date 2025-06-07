@@ -14,6 +14,7 @@ import {
 import ImageCarousel from './ImageCarousel';
 import NewComment from './NewComment';
 import Tipo from './Tipo';
+import { useAuthStore } from '../../app/stores/authentication/useAuthStore';
 import CommentList from '../comments/CommentList';
 
 export default function Post({ post }) {
@@ -28,18 +29,28 @@ export default function Post({ post }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View className="flex flex-row items-center gap-2">
-        <Image
-          className="size-8 rounded-full"
-          source={
-            post.usuario_p?.imagem
-              ? { uri: post.usuario_p.imagem }
-              : require('../../public/images/avatars/default.png')
-          }
-        />
-        <Text className="font-semibold lowercase text-gray-700">
-          {post.usuario_p?.nome || 'usuário'}
-        </Text>
+      <View className="flex flex-row items-center justify-between gap-2">
+        <View>
+          <Image
+            className="size-8 rounded-full"
+            source={
+              post.usuario_p?.imagem
+                ? { uri: post.usuario_p.imagem }
+                : require('../../public/images/avatars/default.png')
+            }
+          />
+          <Text className="font-semibold lowercase text-gray-700">
+            {post.usuario_p?.nome || 'usuário'}
+          </Text>
+        </View>
+
+        {post.id_usuario === useAuthStore.getState().userId && (
+          <TouchableOpacity
+            onPress={() => console.log('Editar Post')}
+            style={{ padding: 8, alignItems: 'center' }}>
+            <Text className="text-blue-500">Editar Post</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <ImageCarousel

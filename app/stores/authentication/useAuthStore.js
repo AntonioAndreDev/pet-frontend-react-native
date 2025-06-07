@@ -9,6 +9,7 @@ export const useAuthStore = create((set) => ({
   isLogged: false,
   isLoading: false,
   error: null,
+  userId: null,
 
   login: async (email, password) => {
     set({ isLoading: true, error: null });
@@ -77,6 +78,33 @@ export const useAuthStore = create((set) => ({
         });
         router.replace('(auth)/login');
       }
+    } catch (err) {
+      set({ error: err?.message || 'Unknown error' });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  userProfileData: async () => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/perfil`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        console.log(data);
+        throw new Error(data.erro || 'Failed to fetch user profile');
+      }
+
+      const userProfile = await response.json();
+      set({ userId: userProfile.id });
     } catch (err) {
       set({ error: err?.message || 'Unknown error' });
     } finally {

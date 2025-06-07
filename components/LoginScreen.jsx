@@ -12,13 +12,14 @@ export function LoginScreen() {
 
   const router = useRouter();
 
-  const { login } = useAuthStore();
+  const { login, userProfileData } = useAuthStore();
 
   async function handleLogin() {
     await login(email.toLocaleLowerCase(), password);
 
     // Redireciona se o login for bem-sucedido
     if (useAuthStore.getState().isLogged) {
+      await userProfileData();
       router.replace('/(app)/home');
     }
   }
