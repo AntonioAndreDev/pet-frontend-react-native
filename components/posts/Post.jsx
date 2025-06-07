@@ -31,24 +31,25 @@ export default function Post({ post }) {
   const [editDescricao, setEditDescricao] = useState('');
   const [editTipo, setEditTipo] = useState(post.tipo_post);
 
+  const userId = useAuthStore.getState().userId;
+  const isOwner = post.id_usuario === userId;
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View className="flex flex-row items-center justify-between gap-2">
-        <View>
+      <View style={styles.container}>
+        <View style={styles.userInfo}>
           <Image
-            className="size-8 rounded-full"
+            style={styles.avatar}
             source={
               post.usuario_p?.imagem
                 ? { uri: post.usuario_p.imagem }
                 : require('../../public/images/avatars/default.png')
             }
           />
-          <Text className="font-semibold lowercase text-gray-700">
-            {post.usuario_p?.nome || 'usuário'}
-          </Text>
+          <Text style={styles.userName}>{post.usuario_p?.nome || 'usuário'}</Text>
         </View>
 
-        {post.id_usuario === useAuthStore.getState().userId && post.tipo_post && (
+        {isOwner && post.tipo_post && (
           <TouchableOpacity
             onPress={() => {
               setEditTitulo(post.titulo);
@@ -59,6 +60,14 @@ export default function Post({ post }) {
             style={styles.editButton}>
             <Text style={styles.editButtonText}>✏️ Editar Post</Text>
           </TouchableOpacity>
+        )}
+
+        {!isOwner && post.usuario_p?.telefone && (
+          <WhatsApp
+            numero={post.usuario_p.telefone}
+            nome={post.usuario_p.nome}
+            tipo_post={post.tipo_post}
+          />
         )}
       </View>
 
@@ -90,12 +99,6 @@ export default function Post({ post }) {
         setEditDescricao={setEditDescricao}
         editTipo={editTipo}
         setEditTipo={setEditTipo}
-      />
-
-      <WhatsApp
-        numero={post.usuario_p.telefone}
-        nome={post.usuario_p.nome}
-        tipo_post={post.tipo_post}
       />
 
       <BottomSheetModal
@@ -143,18 +146,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  editButton: {
-    marginTop: 12,
-    alignSelf: 'flex-end',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: '#e0f2fe',
-    borderRadius: 6,
-  },
-  editButtonText: {
-    color: '#0284c7',
-    fontWeight: '500',
   },
   handleContainer: {
     paddingTop: 12,
@@ -240,5 +231,40 @@ const styles = StyleSheet.create({
   saveText: {
     color: '#fff',
     fontWeight: '600',
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  avatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    marginRight: 6,
+  },
+  userName: {
+    fontWeight: '600',
+    textTransform: 'lowercase',
+    color: '#374151', // Tailwind gray-700
+  },
+  editButton: {
+    backgroundColor: '#e5e7eb', // Tailwind gray-200
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    marginLeft: 8,
+  },
+  editButtonText: {
+    fontWeight: '500',
+    color: '#1f2937', // Tailwind gray-800
   },
 });
