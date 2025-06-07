@@ -15,6 +15,7 @@ import Edit from './Edit';
 import ImageCarousel from './ImageCarousel';
 import NewComment from './NewComment';
 import Tipo from './Tipo';
+import WhatsApp from './WhatsApp';
 import { useAuthStore } from '../../app/stores/authentication/useAuthStore';
 import CommentList from '../comments/CommentList';
 
@@ -89,6 +90,12 @@ export default function Post({ post }) {
         setEditDescricao={setEditDescricao}
         editTipo={editTipo}
         setEditTipo={setEditTipo}
+      />
+
+      <WhatsApp
+        numero={post.usuario_p.telefone}
+        nome={post.usuario_p.nome}
+        tipo_post={post.tipo_post}
       />
 
       <BottomSheetModal
