@@ -74,7 +74,7 @@ export default function Home() {
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16 }}>
         <View>
           {postsFiltrados.map((post) => (
-            <View key={post.id_post} className="mb-5">
+            <View key={post.id_post} style={{ marginBottom: 32 }}>
               <Post post={post} />
             </View>
           ))}
