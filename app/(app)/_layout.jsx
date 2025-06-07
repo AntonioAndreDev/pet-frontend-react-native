@@ -39,11 +39,25 @@ export default function AppLayout() {
             }}
           />
           <Tabs.Screen
-            name="settings"
+            name="tips"
             options={{
-              title: 'Configurações',
+              title: 'Dicas',
               tabBarIcon: ({ color, size }) => (
-                <MaterialIcons name="settings" color={color} size={size} />
+                <MaterialIcons name="lightbulb-outline" color={color} size={size} />
+              ),
+            }}
+            listeners={{
+              tabPress: () => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+              },
+            }}
+          />
+          <Tabs.Screen
+            name="profile"
+            options={{
+              title: 'Perfil',
+              tabBarIcon: ({ color, size }) => (
+                <MaterialIcons name="person-outline" color={color} size={size} />
               ),
             }}
             listeners={{
