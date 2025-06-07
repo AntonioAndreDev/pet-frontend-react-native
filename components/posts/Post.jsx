@@ -42,7 +42,9 @@ export default function Post({ post }) {
             style={styles.avatar}
             source={
               post.usuario_p?.imagem
-                ? { uri: post.usuario_p.imagem }
+                ? {
+                    uri: `http://${process.env.EXPO_PUBLIC_IP}:3000/${post.usuario_p?.imagem.replace('src/', '')}`,
+                  }
                 : require('../../public/images/avatars/default.png')
             }
           />
