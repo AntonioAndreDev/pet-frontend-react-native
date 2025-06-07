@@ -13,6 +13,7 @@ import {
 
 import ImageCarousel from './ImageCarousel';
 import NewComment from './NewComment';
+import Tipo from './Tipo';
 import CommentList from '../comments/CommentList';
 
 export default function Post({ post }) {
@@ -49,13 +50,17 @@ export default function Post({ post }) {
         }
       />
 
-      {/* Botão de comentário com área de toque maior */}
-      <TouchableOpacity
-        style={styles.commentButton}
-        onPress={handlePresentModalPress}
-        activeOpacity={0.7}>
-        <FontAwesome name="comment-o" size={24} color="black" />
-      </TouchableOpacity>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Botão de comentário com área de toque maior */}
+        <TouchableOpacity
+          style={styles.commentButton}
+          onPress={handlePresentModalPress}
+          activeOpacity={0.7}>
+          <FontAwesome name="comment-o" size={24} color="black" />
+        </TouchableOpacity>
+
+        <Tipo tipo={post.tipo_post} />
+      </View>
 
       <BottomSheetModal
         ref={bottomSheetModalRef}
