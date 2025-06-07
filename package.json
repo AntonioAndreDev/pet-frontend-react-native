@@ -17,6 +17,7 @@
     "expo": "^53.0.0",
     "expo-constants": "~17.1.6",
     "expo-haptics": "~14.1.4",
+    "expo-image-picker": "~16.1.4",
     "expo-linking": "~7.1.5",
     "expo-router": "~5.0.7",
     "expo-status-bar": "~2.2.3",
@@ -27,13 +28,13 @@
     "react-native-gesture-handler": "~2.24.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-masked-text": "^1.13.0",
+    "react-native-modal": "^14.0.0-rc.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-reanimated-carousel": "^4.0.2",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
     "react-native-toast-message": "^2.3.0",
-    "zustand": "^5.0.4",
-    "expo-image-picker": "~16.1.4"
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

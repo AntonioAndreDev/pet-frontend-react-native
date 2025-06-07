@@ -39,6 +39,29 @@ export const usePostsStore = create((set) => ({
     }
   },
 
+  getSinglePost: async (id_post) => {
+    try {
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/posts/${id_post}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        console.log(data);
+        throw new Error(data.erro || 'Failed to fetch post');
+      }
+
+      const post = await response.json();
+      return post;
+    } catch (err) {
+      set({ error: err?.message || 'Unknown error' });
+    }
+  },
+
   newPost: async (formData) => {
     set({ isLoading: true, error: null });
 
@@ -57,6 +80,42 @@ export const usePostsStore = create((set) => ({
         const data = await response.json();
         console.log(data);
         throw new Error(data.erro || 'Failed to create post');
+      }
+
+      await usePostsStore.getState().getPosts();
+    } catch (err) {
+      set({ error: err?.message || 'Unknown error' });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updatePost: async (id_post, { tipo_post, titulo, descricao }) => {
+    set({ isLoading: true, error: null });
+
+    console.log('Updating post with ID:', id_post);
+    console.log('New values:', { tipo_post, titulo, descricao });
+
+    try {
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/posts/${id_post}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tipo_post,
+          titulo,
+          descricao,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        console.log(data);
+        throw new Error(data.erro || 'Failed to update post');
       }
 
       await usePostsStore.getState().getPosts();
