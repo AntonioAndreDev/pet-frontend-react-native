@@ -40,8 +40,8 @@ export default function Tips() {
           {tips.length === 0 ? (
             <Text>Nenhuma dica encontrada.</Text>
           ) : (
-            tips.map((dica) => (
-              <View key={dica.id_dica} style={{ marginBottom: 32 }}>
+            tips.map((dica, index) => (
+              <View key={dica?.id_dica ?? `tip-${index}`} style={{ marginBottom: 32 }}>
                 <Tip tip={dica} />
               </View>
             ))
