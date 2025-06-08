@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import LogoutButton from '../../components/LogoutButton';
 import { useAuthStore } from '../stores/authentication/useAuthStore';
 
 export default function Home() {
@@ -34,14 +35,12 @@ export default function Home() {
       <SafeAreaView style={{ flex: 1, backgroundColor: 'white', marginTop: 80 }}>
         <ScrollView contentContainerStyle={styles.container}>
           <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
-
           <TextInput
             placeholder="Sobrenome"
             value={sobrenome}
             onChangeText={setSobrenome}
             style={styles.input}
           />
-
           <TextInput
             placeholder="Telefone"
             value={telefone}
@@ -49,7 +48,6 @@ export default function Home() {
             style={styles.input}
             keyboardType="phone-pad"
           />
-
           <TextInput
             placeholder="Senha Atual"
             value={senhaAtual}
@@ -58,7 +56,6 @@ export default function Home() {
             textContentType="password"
             autoComplete="off"
           />
-
           <TextInput
             placeholder="Nova Senha"
             value={senhaNova}
@@ -67,10 +64,10 @@ export default function Home() {
             textContentType="password"
             autoCapitalize="none"
           />
-
           <TouchableOpacity style={styles.button} onPress={handleAtualizar}>
             <Text style={styles.buttonText}>Salvar Alterações</Text>
           </TouchableOpacity>
+          <LogoutButton />
         </ScrollView>
       </SafeAreaView>
     </>

@@ -191,4 +191,9 @@ export const useAuthStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  logout: () => {
+    set({ token: '', isLogged: false, userId: null });
+    router.replace('(auth)/login');
+  },
 }));
