@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { create } from 'zustand';
 
@@ -120,6 +121,33 @@ export const useAuthStore = create((set) => ({
     senhaAtual = ''
   ) => {
     set({ isLoading: true, error: null });
+
+    console.log(`Atualizando perfil com: );
+      nome: ${nome}, 
+      sobrenome: ${sobrenome}, 
+      telefone: ${telefone}, 
+      senhaNova: ${senhaNova}, 
+      senhaAtual: ${senhaAtual}`);
+
+    // Validação: nova senha precisa ser preenchida se senha atual for enviada
+    if (senhaAtual.trim() !== '' && senhaNova.trim() === '') {
+      Alert.alert('Erro', 'Por favor, preencha a nova senha.');
+      set({ isLoading: false });
+      return;
+    }
+
+    // Validação: pelo menos um campo deve ser preenchido
+    if (
+      nome.trim() === '' &&
+      sobrenome.trim() === '' &&
+      telefone.trim() === '' &&
+      senhaAtual.trim() === '' &&
+      senhaNova.trim() === ''
+    ) {
+      Alert.alert('Erro', 'Por favor, preencha pelo menos um campo.');
+      set({ isLoading: false });
+      return;
+    }
 
     try {
       const token = useAuthStore.getState().token;

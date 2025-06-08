@@ -5,7 +5,6 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Alert,
   StyleSheet,
   View,
 } from 'react-native';
@@ -22,16 +21,6 @@ export default function Home() {
   const { updateProfile } = useAuthStore();
 
   const handleAtualizar = async () => {
-    if (!nome && !sobrenome && !telefone && !senhaAtual) {
-      Alert.alert('Erro', 'Por favor, preencha pelo menos um campo.');
-      return;
-    }
-
-    if (senhaAtual && senhaNova === '') {
-      Alert.alert('Erro', 'Por favor, preencha a nova senha.');
-      return;
-    }
-
     await updateProfile(nome, sobrenome, telefone, senhaNova, senhaAtual);
   };
 
@@ -66,15 +55,17 @@ export default function Home() {
             value={senhaAtual}
             onChangeText={setSenhaAtual}
             style={styles.input}
-            secureTextEntry
+            textContentType="password"
+            autoComplete="off"
           />
 
           <TextInput
-            placeholder="Nova Senha (opcional)"
+            placeholder="Nova Senha"
             value={senhaNova}
             onChangeText={setSenhaNova}
             style={styles.input}
-            secureTextEntry
+            textContentType="password"
+            autoCapitalize="none"
           />
 
           <TouchableOpacity style={styles.button} onPress={handleAtualizar}>
