@@ -1,7 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { useAuthStore } from '../stores/authentication/useAuthStore';
@@ -28,6 +28,11 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     const { nome, sobrenome, telefone, email, senha } = formData;
+
+    if (!nome || !sobrenome || !telefone || !email || !senha) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      return;
+    }
 
     await register(nome, sobrenome, telefone, email.toLowerCase(), senha);
   };
