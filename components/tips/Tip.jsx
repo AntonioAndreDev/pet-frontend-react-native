@@ -6,7 +6,7 @@ export default function Tip({ tip }) {
 
   return (
     <View>
-      <View className="rounded-lg bg-white px-4 py-4 shadow-md">
+      <View className="rounded-lg bg-white px-4 py-4">
         {loading && (
           <View className="absolute inset-0 z-10 flex items-center justify-center bg-white">
             <ActivityIndicator size="large" color="#0000ff" />

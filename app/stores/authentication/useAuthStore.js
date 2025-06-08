@@ -111,4 +111,56 @@ export const useAuthStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  updateProfile: async (
+    nome = '',
+    sobrenome = '',
+    telefone = '',
+    senhaNova = '',
+    senhaAtual = ''
+  ) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const token = useAuthStore.getState().token;
+
+      const response = await fetch(`${apiUrl}/usuarios`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          nome,
+          sobrenome,
+          telefone,
+          senhaNova,
+          senhaAtual,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.mensagem || 'Failed to update profile');
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: 'Perfil atualizado com sucesso!',
+        visibilityTime: 12_000,
+      });
+
+      set({ token: '', isLogged: false, userId: null });
+      router.replace('(auth)/login');
+    } catch (err) {
+      console.log(err);
+      Toast.show({
+        type: 'error',
+        text1: err?.mensagem || err?.message || 'Unknown error',
+        visibilityTime: 12_000,
+      });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));
