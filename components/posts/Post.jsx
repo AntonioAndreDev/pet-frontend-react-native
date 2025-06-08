@@ -43,7 +43,7 @@ export default function Post({ post }) {
             source={
               post.usuario_p?.imagem
                 ? {
-                    uri: `http://${process.env.EXPO_PUBLIC_IP}:3000/${post.usuario_p?.imagem.replace('src/', '')}`,
+                    uri: `${process.env.EXPO_PUBLIC_URL}/${post.usuario_p?.imagem.replace('src/', '')}`,
                   }
                 : require('../../public/images/avatars/default.png')
             }
@@ -77,7 +77,7 @@ export default function Post({ post }) {
         image={
           post?.imagem?.startsWith('http')
             ? post.imagem
-            : `http://${process.env.EXPO_PUBLIC_IP}:3000/${post.imagem?.replace('src/', '')}`
+            : `${process.env.EXPO_PUBLIC_URL}/${post.imagem?.replace('src/', '')}`
         }
       />
 

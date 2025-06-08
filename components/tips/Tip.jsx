@@ -18,7 +18,7 @@ export default function Tip({ tip }) {
           source={
             tip.usuario_d?.imagem
               ? {
-                  uri: `http://${process.env.EXPO_PUBLIC_IP}:3000/${tip.usuario_d.imagem.replace('src/', '')}`,
+                  uri: `${process.env.EXPO_PUBLIC_URL}/${tip.usuario_d.imagem.replace('src/', '')}`,
                 }
               : require('../../public/images/avatars/default.png')
           }

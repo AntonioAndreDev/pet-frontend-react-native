@@ -22,7 +22,7 @@ export default function CommentList({ postId }) {
               <>
                 <Image
                   source={{
-                    uri: comentario.usuario_c.imagem,
+                    uri: `${process.env.EXPO_PUBLIC_URL}/${comentario.usuario_c.imagem.replace('src/', '')}`,
                   }}
                   className="size-8 rounded-full"
                   resizeMode="cover"
