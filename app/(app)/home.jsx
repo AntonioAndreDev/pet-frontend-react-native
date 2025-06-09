@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Filter from '../../components/Filter';
@@ -65,7 +65,9 @@ export default function Home() {
         filtros={filtros}
       />
 
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16 }}>
+      <ScrollView
+        contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16 }}
+        refreshControl={<RefreshControl refreshing={isLoading} onRefresh={getPosts} />}>
         <View>
           {postsFiltrados.map((post) => (
             <View key={post.id_post} style={{ marginBottom: 32 }}>
