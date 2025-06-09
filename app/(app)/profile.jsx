@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 
+import Loading from '../../components/Loading';
 import LogoutButton from '../../components/LogoutButton';
 import { useAuthStore } from '../stores/authentication/useAuthStore';
 
@@ -19,7 +20,7 @@ export default function Home() {
   const [senhaAtual, setSenhaAtual] = useState('');
   const [senhaNova, setSenhaNova] = useState('');
 
-  const { updateProfile } = useAuthStore();
+  const { updateProfile, isLoading } = useAuthStore();
 
   const handleAtualizar = async () => {
     await updateProfile(nome, sobrenome, telefone, senhaNova, senhaAtual);
@@ -27,6 +28,7 @@ export default function Home() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <View className="absolute left-0 right-0 top-0 z-10 items-start justify-center bg-yellow-400 px-4 py-2">
         <SafeAreaView>
           <Text className="text-lg font-bold text-slate-700">Editar Perfil</Text>

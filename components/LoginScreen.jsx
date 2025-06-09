@@ -3,6 +3,7 @@ import { Link, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 
+import Loading from './Loading';
 import { useAuthStore } from '../app/stores/authentication/useAuthStore';
 
 export function LoginScreen() {
@@ -12,7 +13,7 @@ export function LoginScreen() {
 
   const router = useRouter();
 
-  const { login, userProfileData } = useAuthStore();
+  const { login, userProfileData, isLoading } = useAuthStore();
 
   async function handleLogin() {
     await login(email.toLocaleLowerCase(), password);
@@ -26,6 +27,7 @@ export function LoginScreen() {
 
   return (
     <View className="flex-1 items-center justify-center bg-yellow-400">
+      {isLoading && <Loading />}
       <View className="w-full max-w-md items-center overflow-hidden rounded-3xl bg-yellow-400 p-6 shadow-lg">
         {/* Dog Ears */}
         <View className="absolute left-0 top-0 size-40 -translate-x-12 -translate-y-12 rounded-full bg-slate-700" />

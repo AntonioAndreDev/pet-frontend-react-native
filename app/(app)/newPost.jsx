@@ -1,7 +1,7 @@
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   Image,
@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native';
 
+import Loading from '../../components/Loading';
 import { usePostsStore } from '../stores/posts/usePostsStore';
 
 export default function NewPost() {
@@ -28,7 +29,7 @@ export default function NewPost() {
   const [idadeUnidade, setIdadeUnidade] = useState('');
 
   const router = useRouter();
-  const { newPost } = usePostsStore();
+  const { newPost, isLoading } = usePostsStore();
 
   const unidades = ['dia(s)', 'mês(es)', 'ano(s)'];
   const especies = ['Cachorro', 'Gato', 'Outros'];
@@ -150,6 +151,8 @@ export default function NewPost() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {isLoading && <Loading />}
+
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Nova Postagem</Text>
 

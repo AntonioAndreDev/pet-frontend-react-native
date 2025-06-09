@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { ScrollView, View, Text, ActivityIndicator, SafeAreaView } from 'react-native';
 
+import Loading from '../../components/Loading';
 import Tip from '../../components/tips/Tip';
 import { useTipsStore } from '../stores/tips/useTipsStore';
 
@@ -12,12 +13,7 @@ export default function Tips() {
   }, []);
 
   if (isLoading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Carregando dicas...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   if (error) {

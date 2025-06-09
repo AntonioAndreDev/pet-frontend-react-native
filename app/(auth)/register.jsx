@@ -4,10 +4,11 @@ import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
+import Loading from '../../components/Loading';
 import { useAuthStore } from '../stores/authentication/useAuthStore';
 
 export default function RegisterScreen() {
-  const { register } = useAuthStore();
+  const { register, isLoading } = useAuthStore();
 
   const [formData, setFormData] = useState({
     nome: '',
@@ -39,6 +40,7 @@ export default function RegisterScreen() {
 
   return (
     <View className="flex-1 items-center justify-center bg-yellow-400">
+      {isLoading && <Loading />}
       <View className="w-full max-w-md items-center overflow-hidden rounded-3xl bg-yellow-400 p-6 shadow-lg">
         {/* Dog Ears */}
         <View className="absolute left-0 top-0 size-40 -translate-x-12 -translate-y-12 rounded-full bg-slate-700" />

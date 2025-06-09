@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import Filter from '../../components/Filter';
+import Loading from '../../components/Loading';
 import Post from '../../components/posts/Post';
 import { usePostsStore } from '../stores/posts/usePostsStore';
 
@@ -32,14 +33,6 @@ export default function Home() {
     getPosts();
   }, []);
 
-  if (isLoading) {
-    return (
-      <SafeAreaView>
-        <Text>Carregando...</Text>
-      </SafeAreaView>
-    );
-  }
-
   if (error) {
     return (
       <SafeAreaView>
@@ -48,7 +41,7 @@ export default function Home() {
     );
   }
 
-  if (posts.length === 0) {
+  if (posts.length === 0 && !isLoading) {
     return (
       <SafeAreaView>
         <Text className="text-black">Nenhum post encontrado.</Text>
@@ -58,6 +51,7 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      {isLoading && <Loading />}
       <View className="absolute left-0 right-0 top-0 z-10 items-start justify-center bg-yellow-400 px-4 py-2">
         <SafeAreaView>
           <Text className="text-lg font-bold text-slate-700">Petly</Text>
